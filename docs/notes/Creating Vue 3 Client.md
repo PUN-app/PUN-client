@@ -6,6 +6,8 @@ vue create pun
 (pick vue 3)
 ```
 
+https://cli.vuejs.org/
+
 ## Github crap
 
 For login, put the user name (not email), and for password, use the token. 
