@@ -32,6 +32,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 - [Stacks Accounts](https://docs.stacks.co/understand-stacks/accounts)
 - [Find dapps on Stacks 2.0](https://stx.fan/dapps/)
 - [Stacks - Discord](https://discord.gg/Zu8uSjvj)
+- [Stacks blockchain API](https://blockstack.github.io/stacks-blockchain-api/)
 
 #### Clarity
 

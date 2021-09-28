@@ -1,4 +1,5 @@
 <template>
+  <stxAccountDemo msg="Account Demo"/>
   <stxGaiaDemo msg="Gaia Demo"/>
   <img alt="Vue logo" src="./assets/stacks-logo.png">
   <HelloWorld msg="Welcome to Your Vue.js App"/>
@@ -6,12 +7,14 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue';
+import stxAccountDemo from '@/stacks/components/stx-account-demo.vue';
 import stxGaiaDemo from '@/stacks/components/stx-gaia-demo.vue';
 
 export default {
   name: 'App',
   components: {
     HelloWorld,
+    stxAccountDemo,
     stxGaiaDemo
   }
 }
