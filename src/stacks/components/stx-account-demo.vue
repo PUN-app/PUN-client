@@ -7,6 +7,7 @@
     <p>Account Info no proof: {{ accountInfoNoProof }}</p>
     <p>Faucet Tx: {{ faucetTx }}</p>
   </div>
+  <button @click="refreshBalance()" >Refresh Balance</button>
 </template>
 
 <script>
@@ -72,24 +73,37 @@ export default {
     const faucetTx = ref(null);
     
     getAccountInfo().then( (result) => {
-      console.debug('then ' + JSON.stringify(result));
+      console.debug('getAccountInfo ' + JSON.stringify(result));
       accountInfo.value = result;
     }).catch ( (err) => {
       console.error("error " + err);
     })
 
-    getAccountInfoWithoutProof().then( (result) => {
-      console.debug('then ' + JSON.stringify(result));
-      accountInfoNoProof.value = result;
+    const refreshBalance = function() {
+      getAccountInfoWithoutProof().then( (result) => {
+        console.debug('getAccountInfoWithoutProof ' + JSON.stringify(result));
+        accountInfoNoProof.value = result;
+      }).catch ( (err) => {
+        console.error("error " + err);
+      })
+    }
+    
+    refreshBalance();
+
+    runFaucetStx().then( (result) => {
+      console.debug('runFaucetStx ' + JSON.stringify(result));
+      faucetTx.value = result;
+      refreshBalance();
     }).catch ( (err) => {
       console.error("error " + err);
     })
-    
 
     return {
       accountInfo,
       accountInfoNoProof,
       faucetTx,
+      
+      refreshBalance,
       getAccountInfoWithoutProof,
       runFaucetStx,
       stacksAddress,
