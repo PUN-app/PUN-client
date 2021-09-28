@@ -1,6 +1,6 @@
 <template>
   <stxGaiaDemo msg="Gaia Demo"/>
-  <img alt="Vue logo" src="./assets/logo.png">
+  <img alt="Vue logo" src="./assets/stacks-logo.png">
   <HelloWorld msg="Welcome to Your Vue.js App"/>
 </template>
 
