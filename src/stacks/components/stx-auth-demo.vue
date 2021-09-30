@@ -13,20 +13,13 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import { AppConfig, UserSession, showConnect } from '@stacks/connect';
-
-const appConfig = new AppConfig(['store_write', 'publish_data']);
-// This should be app scoped
-const userSession = new UserSession({ appConfig });
+import { ref, inject } from 'vue';
+//import { /* AppConfig, UserSession, */ showConnect } from '@stacks/connect';
+import { StxSessionService } from '@/services/stx-session.service';
 
 /*
-type UserData = {
-  username: string,
-}
-*/
 
-function authenticate(cbFunction) {
+function authenticate(cbFunction, userSession) {
   showConnect({
     appDetails: {
       name: 'PUN',
@@ -43,6 +36,7 @@ function authenticate(cbFunction) {
     userSession: userSession,
   });
 }
+*/
 
 export default {
   name: 'stxAuthDemo',
@@ -52,6 +46,8 @@ export default {
   setup() {
     const userData = ref(null);
     const username = ref(null);
+    const stxSession = inject('sessionService', new StxSessionService())
+
     const authCallback = function(data) {
       console.debug("userData: " + JSON.stringify(data, null, 1));
       userData.value = data;
@@ -59,13 +55,15 @@ export default {
     }
     
     const callAuth = function() {
-      authenticate(authCallback);
+      stxSession.authenticate(authCallback, stxSession.userSession);
     }
 
     return {
       userData,
       username,
       authenticate: callAuth,
+      
+      stxSession,
     }
   },
 }

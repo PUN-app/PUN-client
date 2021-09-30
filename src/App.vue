@@ -11,6 +11,9 @@ import HelloWorld from './components/HelloWorld.vue';
 import stxAccountDemo from '@/stacks/components/stx-account-demo.vue';
 import stxAuthDemo from '@/stacks/components/stx-auth-demo.vue';
 import stxGaiaDemo from '@/stacks/components/stx-gaia-demo.vue';
+import { StxSessionService } from '@/services/stx-session.service';
+
+const sessionService = new StxSessionService();
 
 export default {
   name: 'App',
@@ -19,6 +22,9 @@ export default {
     stxAccountDemo,
     stxAuthDemo,
     stxGaiaDemo
+  },
+  provide: {
+    sessionService: sessionService,
   }
 }
 </script>
