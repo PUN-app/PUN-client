@@ -4,7 +4,11 @@
     <p>
       <button @click="authenticate">Login</button>
     </p>
-    <p>Username: {{ username }}</p>
+  </div>
+  <div v-if="userData">
+    <p>Username: {{ userData.username }}</p>
+    <p v-if="userData.profile && userData.profile.stxAddress">STX Address (mainnet): {{ userData.profile.stxAddress.mainnet }}</p>
+    <p v-if="userData.profile && userData.profile.stxAddress">STX Address (testnet): {{ userData.profile.stxAddress.testnet }}</p>
   </div>
 </template>
 
@@ -27,7 +31,7 @@ function authenticate(cbFunction) {
     appDetails: {
       name: 'PUN',
 //      icon: window.location.origin + '/my-app-logo.svg',
-      icon: window.location.origin + '/assets/logo.png',
+      icon: window.location.origin + '/images/logo.png',
     },
     redirectTo: '/',
     onFinish: () => {

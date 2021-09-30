@@ -4,6 +4,12 @@
 npm install -g @vue/cli
 vue create pun
 (pick vue 3)
+
+To support Typescript (.ts)
+npm install -D ts-node
+npm install -D typescript
+
+vue add typescript
 ```
 
 ## Github crap

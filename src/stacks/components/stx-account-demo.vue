@@ -15,7 +15,6 @@ import { ref } from "vue";
 import { fetch } from "cross-fetch";
 import { makeRandomPrivKey, privateKeyToString, getAddressFromPrivateKey, TransactionVersion} from "@stacks/transactions";
 import {AccountsApi, FaucetsApi, Configuration} from "@stacks/blockchain-api-client";
-//import {AccountsApi, Configuration} from "@stacks/blockchain-api-client";
 
 const apiConfig = new Configuration({
   fetchApi: fetch,
@@ -57,8 +56,6 @@ async function runFaucetStx() {
 
   return faucetTx;
 }
-/*
-*/
 
 export default {
   name: 'stxAccountDemo',
