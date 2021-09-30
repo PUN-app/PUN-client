@@ -1,8 +1,9 @@
-import { AppConfig, UserSession, showConnect } from '@stacks/connect';
+import { AppConfig, UserSession, UserData, showConnect } from '@stacks/connect';
 
 export class StxSessionService {
 
   public userSession: UserSession;
+  public userData: UserData | null = null;
 
   constructor() {
     const appConfig = new AppConfig(['store_write', 'publish_data']);
@@ -11,7 +12,7 @@ export class StxSessionService {
 //    const userSession = new UserSession();
   }
 
-  public authenticate(cbFunction: any, userSession: any) {
+  public authenticate(cbFunction: any) {
     showConnect({
       appDetails: {
         name: 'PUN',
@@ -20,12 +21,12 @@ export class StxSessionService {
       },
       redirectTo: '/',
       onFinish: () => {
-        const userData = userSession.loadUserData();
+        this.userData = this.userSession.loadUserData();
   //      console.debug("userData: " + JSON.stringify(userData, null, 1));
-        cbFunction(userData);
+        cbFunction(this.userData);
         // Save or otherwise utilize userData post-authentication
       },
-      userSession: userSession,
+      userSession: this.userSession,
     });
   }
 

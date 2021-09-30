@@ -14,29 +14,7 @@
 
 <script>
 import { ref, inject } from 'vue';
-//import { /* AppConfig, UserSession, */ showConnect } from '@stacks/connect';
 import { StxSessionService } from '@/services/stx-session.service';
-
-/*
-
-function authenticate(cbFunction, userSession) {
-  showConnect({
-    appDetails: {
-      name: 'PUN',
-//      icon: window.location.origin + '/my-app-logo.svg',
-      icon: window.location.origin + '/images/logo.png',
-    },
-    redirectTo: '/',
-    onFinish: () => {
-      let userData = userSession.loadUserData();
-//      console.debug("userData: " + JSON.stringify(userData, null, 1));
-      cbFunction(userData);
-      // Save or otherwise utilize userData post-authentication
-    },
-    userSession: userSession,
-  });
-}
-*/
 
 export default {
   name: 'stxAuthDemo',
@@ -55,15 +33,13 @@ export default {
     }
     
     const callAuth = function() {
-      stxSession.authenticate(authCallback, stxSession.userSession);
+      stxSession.authenticate(authCallback);
     }
 
     return {
       userData,
       username,
       authenticate: callAuth,
-      
-      stxSession,
     }
   },
 }

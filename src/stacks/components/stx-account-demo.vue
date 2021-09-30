@@ -8,6 +8,8 @@
     <p>Faucet Tx: {{ faucetTx }}</p>
   </div>
   <button @click="refreshBalance()" >Refresh Balance</button>
+  <button @click="tapFaucet()" >Tap Faucet</button>
+  
 </template>
 
 <script>
@@ -66,7 +68,6 @@ export default {
     // https://stacks-node-api.testnet.stacks.co/v2/accounts/STVFY496XWC84SRCMZFXX8NXN5WVJGSD35PBWYH6
     const accountInfo = ref(null);
     const accountInfoNoProof = ref(null);
-//    const faucetTx = runFaucetStx();
     const faucetTx = ref(null);
     
     getAccountInfo().then( (result) => {
@@ -87,13 +88,15 @@ export default {
     
     refreshBalance();
 
-    runFaucetStx().then( (result) => {
-      console.debug('runFaucetStx ' + JSON.stringify(result));
-      faucetTx.value = result;
-      refreshBalance();
-    }).catch ( (err) => {
-      console.error("error " + err);
-    })
+    const tapFaucet = function() {
+      runFaucetStx().then( (result) => {
+        console.debug('runFaucetStx ' + JSON.stringify(result));
+        faucetTx.value = result;
+        refreshBalance();
+      }).catch ( (err) => {
+        console.error("error " + err);
+      })
+    }
 
     return {
       accountInfo,
@@ -101,8 +104,9 @@ export default {
       faucetTx,
       
       refreshBalance,
+      tapFaucet,
       getAccountInfoWithoutProof,
-      runFaucetStx,
+//      runFaucetStx,
       stacksAddress,
       accounts,
     }
