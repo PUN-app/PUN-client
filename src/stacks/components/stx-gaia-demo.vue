@@ -5,14 +5,15 @@
     <div v-if="stxSession.userSession.isUserSignedIn()">
       <button @click="onSave()" >Save</button>
       <button @click="onLoad()" >Load</button>
-      <p>{{fileData}}</p>
+      <p>{{form.fileData}}</p>
+      <p>Color: <input type="text" v-model="form.fileData.color"/></p>
       <p>(coming soon)</p>
     </div>
   </div>
 </template>
 
 <script>
-import { inject } from 'vue';
+import { inject, reactive } from 'vue';
 import { Storage } from '@stacks/storage';
 import { StxSessionService } from '@/services/stx-session.service';
 
@@ -36,24 +37,31 @@ export default {
       electric: true,
       purchaseDate: '2019-04-03',
     };
+    let form = reactive({
+      fileData: fileData,
+    })
 
     const options = {
       encrypt: true,
     };
 
     return {
-      fileData,
+//      fileData,
+      form,
       onSave() {
 //        let putPromise = storage.putFile(fileName, JSON.stringify(fileData), options).then((fileUrl) => {
-        storage.putFile(fileName, JSON.stringify(fileData), options).then((fileUrl) => {
+        console.debug("Saving " + JSON.stringify(form.fileData));
+        storage.putFile(fileName, JSON.stringify(form.fileData), options).then((fileUrl) => {
           console.debug("Saved! fileUrl=" + fileUrl);
           // Handle any execution after data has been saved
         });
       },
       onLoad() {
-        storage.getFile(fileName, options).then(fileData => {
+        storage.getFile(fileName, options).then(data => {
+          form.fileData = JSON.parse(data);
+//          console.debug("loaded data.color " + data["color"]);
           // Handle any execution that uses decrypted fileData
-          console.debug("loaded " + fileData);
+          console.debug("loaded " + data);
         });
       },
       stxSession,
