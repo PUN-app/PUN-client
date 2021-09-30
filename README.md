@@ -34,6 +34,9 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 - [Stacks - Discord](https://discord.gg/Zu8uSjvj)
 - [Stacks blockchain API](https://blockstack.github.io/stacks-blockchain-api/)
 
+#### Accounts and Wallets
+ - [Hiro Wallet](https://www.hiro.so/wallet)
+ 
 #### Clarity
 
 - [Clarity Language Book](https://book.clarity-lang.org/)
