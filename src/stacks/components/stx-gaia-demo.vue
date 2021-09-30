@@ -1,8 +1,8 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <p v-if="!stxSession.userSession.isUserSignedIn()">Please log in.</p>
-    <div v-if="stxSession.userSession.isUserSignedIn()">
+    <p v-if="!userSession.isUserSignedIn()">Please log in.</p>
+    <div v-if="userSession.isUserSignedIn()">
       <button @click="onSave()" >Save</button>
       <button @click="onLoad()" >Load</button>
       <p>{{form.fileData}}</p>
@@ -25,9 +25,11 @@ export default {
   setup() {
     const stxSession = inject('sessionService', new StxSessionService());
 
+    const userSession = reactive(stxSession.userSession);
+
     let storage;
-    if (stxSession.userSession) {
-      const userSession = stxSession.userSession;
+    if (userSession) {
+//      const userSession = stxSession.userSession;
       storage = new Storage({ userSession });
     }
 
@@ -43,6 +45,7 @@ export default {
 
     const options = {
       encrypt: true,
+      decrypt: true,
     };
 
     return {
@@ -64,7 +67,7 @@ export default {
           console.debug("loaded " + data);
         });
       },
-      stxSession,
+      userSession,
       // temp
     }
   },
