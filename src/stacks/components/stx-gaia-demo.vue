@@ -3,6 +3,9 @@
     <h1>{{ msg }}</h1>
     <p v-if="!stxSession.userSession.isUserSignedIn()">Please log in.</p>
     <div v-if="stxSession.userSession.isUserSignedIn()">
+      <button @click="onSave()" >Save</button>
+      <button @click="onLoad()" >Load</button>
+      <p>{{fileData}}</p>
       <p>(coming soon)</p>
     </div>
   </div>
@@ -12,7 +15,6 @@
 import { inject } from 'vue';
 import { Storage } from '@stacks/storage';
 import { StxSessionService } from '@/services/stx-session.service';
-
 
 export default {
   name: 'stxGaiaDemo',
@@ -28,28 +30,34 @@ export default {
       storage = new Storage({ userSession });
     }
 
-//    let fileName = 'car.json';
-    
-//    let fileData = {
-//      color: 'blue',
-//      electric: true,
-//      purchaseDate: '2019-04-03',
-//    };
-    
-//    const options = {
-//      encrypt: true,
-//    };
+    let fileName = 'car.json';
+    let fileData = {
+      color: 'blue',
+      electric: true,
+      purchaseDate: '2019-04-03',
+    };
+
+    const options = {
+      encrypt: true,
+    };
 
     return {
-      storage,
+      fileData,
       onSave() {
-//        let fileUrl = storage.putFile(fileName, JSON.stringify(fileData), options).then(() => {
-          console.debug("Saved!");
+//        let putPromise = storage.putFile(fileName, JSON.stringify(fileData), options).then((fileUrl) => {
+        storage.putFile(fileName, JSON.stringify(fileData), options).then((fileUrl) => {
+          console.debug("Saved! fileUrl=" + fileUrl);
           // Handle any execution after data has been saved
-//        });
+        });
       },
-      // temp
+      onLoad() {
+        storage.getFile(fileName, options).then(fileData => {
+          // Handle any execution that uses decrypted fileData
+          console.debug("loaded " + fileData);
+        });
+      },
       stxSession,
+      // temp
     }
   },
 }

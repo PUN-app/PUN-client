@@ -6,6 +6,8 @@ export class StxSessionService {
   public userData: UserData | null = null;
 
   constructor() {
+    // publish_data required to save unencrypted public data
+    // (https://docs.stacks.co/build-apps/guides/data-storage)
     const appConfig = new AppConfig(['store_write', 'publish_data']);
   // This should be app scoped
     this.userSession = new UserSession({ appConfig });
