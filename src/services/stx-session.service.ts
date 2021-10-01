@@ -8,6 +8,8 @@ export class StxSessionService {
   constructor() {
     // publish_data required to save unencrypted public data
     // (https://docs.stacks.co/build-apps/guides/data-storage)
+    //const appConfig = new AppConfig(['store_write'], appDomain);
+
     const appConfig = new AppConfig(['store_write', 'publish_data']);
   // This should be app scoped
     this.userSession = new UserSession({ appConfig });
@@ -18,7 +20,6 @@ export class StxSessionService {
     showConnect({
       appDetails: {
         name: 'PUN',
-  //      icon: window.location.origin + '/my-app-logo.svg',
         icon: window.location.origin + '/images/logo.png',
       },
       redirectTo: '/',
@@ -30,6 +31,24 @@ export class StxSessionService {
       },
       userSession: this.userSession,
     });
+  }
+  
+  public signUserOut() {
+    if (this.userSession && this.userSession.isUserSignedIn()) {
+      const result = this.userSession.signUserOut();
+      console.debug("logout result: " + result);
+    }
+  }
+
+  public async encrypt(message: any) {
+    let cipherText: String | null = null;
+    if (this.userSession && this.userSession.isUserSignedIn()) {
+      cipherText = await this.userSession.encryptContent(message);
+    }
+    return cipherText;
+//    const message = 'My secret message';
+//    const cipherText = await userSession.encryptContent(message);
+//    const plainText = await userSession.decryptContent(cipherText);
   }
 
 }

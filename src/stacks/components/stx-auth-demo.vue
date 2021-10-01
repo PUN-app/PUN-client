@@ -3,6 +3,7 @@
     <h1>{{ msg }}</h1>
     <p>
       <button @click="authenticate">Login</button>
+      <button @click="logout">Logout</button>
     </p>
   </div>
   <div v-if="userData">
@@ -40,6 +41,9 @@ export default {
       userData,
       username,
       authenticate: callAuth,
+      logout() {
+        stxSession.signUserOut();
+      },
     }
   },
 }

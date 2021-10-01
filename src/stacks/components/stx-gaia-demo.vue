@@ -29,7 +29,6 @@ export default {
 
     let storage;
     if (userSession) {
-//      const userSession = stxSession.userSession;
       storage = new Storage({ userSession });
     }
 
