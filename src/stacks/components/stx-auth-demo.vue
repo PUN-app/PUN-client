@@ -14,23 +14,25 @@
 </template>
 
 <script>
-import { ref, inject } from 'vue';
+import { defineComponent, ref, inject } from 'vue';
 import { StxSessionService } from '@/services/stx-session.service';
 
-export default {
+export default defineComponent({
   name: 'stxAuthDemo',
   props: {
     msg: String
   },
-  setup() {
+  emits: ['loggedIn', 'loggedOut'],
+  setup(props, ctx) {
     const userData = ref(null);
-    const username = ref(null);
-    const stxSession = inject('sessionService', new StxSessionService())
+//    const username = ref(null);
+    const stxSession = inject('sessionService', new StxSessionService());
 
     const authCallback = function(data) {
       console.debug("userData: " + JSON.stringify(data, null, 1));
       userData.value = data;
-      username.value = data.username;
+//      username.value = data.username;
+      ctx.emit('loggedIn');
     }
     
     const callAuth = function() {
@@ -39,12 +41,14 @@ export default {
 
     return {
       userData,
-      username,
+//      username,
       authenticate: callAuth,
       logout() {
         stxSession.signUserOut();
+        userData.value = null;
+        ctx.emit('loggedOut');
       },
     }
   },
-}
+})
 </script>

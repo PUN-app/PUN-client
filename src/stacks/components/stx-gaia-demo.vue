@@ -20,7 +20,10 @@ import { StxSessionService } from '@/services/stx-session.service';
 export default {
   name: 'stxGaiaDemo',
   props: {
-    msg: String
+    msg: String,
+    isLoggedIn: {
+      default: false,
+    },
   },
   setup() {
     const stxSession = inject('sessionService', new StxSessionService());

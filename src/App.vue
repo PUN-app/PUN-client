@@ -1,16 +1,12 @@
 <template>
-  <stxAccountDemo msg="Account Demo"/>
-  <stxAuthDemo msg="Authentication Demo"/>
-  <stxGaiaDemo msg="Gaia Demo"/>
+  <stxDemo/>
   <img alt="PUN logo" src="./assets/stacks-logo.png">
   <HelloWorld msg="Welcome to Your Vue.js App"/>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue';
-import stxAccountDemo from '@/stacks/components/stx-account-demo.vue';
-import stxAuthDemo from '@/stacks/components/stx-auth-demo.vue';
-import stxGaiaDemo from '@/stacks/components/stx-gaia-demo.vue';
+import stxDemo from '@/stacks/components/stx-demo.vue';
 import { StxSessionService } from '@/services/stx-session.service';
 
 const sessionService = new StxSessionService();
@@ -19,9 +15,7 @@ export default {
   name: 'App',
   components: {
     HelloWorld,
-    stxAccountDemo,
-    stxAuthDemo,
-    stxGaiaDemo
+    stxDemo,
   },
   provide: {
     sessionService: sessionService,

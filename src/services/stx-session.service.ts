@@ -33,13 +33,17 @@ export class StxSessionService {
     });
   }
   
+  public isLoggedIn(): boolean {
+    return this.userSession && this.userSession.isUserSignedIn();
+  }
+
   public signUserOut() {
     if (this.userSession && this.userSession.isUserSignedIn()) {
       const result = this.userSession.signUserOut();
       console.debug("logout result: " + result);
     }
   }
-
+  
   public async encrypt(message: any) {
     let cipherText: String | null = null;
     if (this.userSession && this.userSession.isUserSignedIn()) {
