@@ -5,7 +5,8 @@
     <input class="stxAddress" type="text" v-model="stacksAddress"/></p>
     <p>Accounts: {{ accounts }}</p>
     <p>Account Info: {{ accountInfo }}</p>
-    <p>Account Info no proof: {{ accountInfoNoProof }}</p>
+    <p>Balance: {{ accountBal }}</p>
+    <p>Account Info no proof: {{ accountInfoNoProof ? accountInfoNoProof.balanceAsInt : " " }} {{ accountInfoNoProof }}</p>
     <p>Faucet Tx: {{ faucetTx }}</p>
   </div>
   <button @click="refreshBalance()" >Refresh Balance</button>
@@ -14,10 +15,11 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { fetch } from "cross-fetch";
 import { makeRandomPrivKey, privateKeyToString, getAddressFromPrivateKey, TransactionVersion} from "@stacks/transactions";
 import {AccountsApi, FaucetsApi, Configuration} from "@stacks/blockchain-api-client";
+import {AccountInfo} from "@/stacks/lib/account-info";
 
 const apiConfig = new Configuration({
   fetchApi: fetch,
@@ -72,27 +74,41 @@ export default {
   },
   setup() {
     // https://stacks-node-api.testnet.stacks.co/v2/accounts/STVFY496XWC84SRCMZFXX8NXN5WVJGSD35PBWYH6
-    const accountInfo = ref(null);
-    const accountInfoNoProof = ref(null);
-    const faucetTx = ref(null);
+    const accountInfo = ref(null as AccountInfo | null);
+    const accountInfoNoProof = ref(null as AccountInfo | null);
+    const faucetTx = ref(null as any | null);
+    const accountBal = ref(0);
 
-    getAccountInfo().then( (result) => {
-      console.debug('getAccountInfo ' + JSON.stringify(result));
-      accountInfo.value = result;
-    }).catch ( (err) => {
-      console.error("getAccountInfo error " + err);
-    })
+    const refreshAccountInfo = function() {
+      getAccountInfo().then( (result) => {
+        console.debug('getAccountInfo ' + JSON.stringify(result));
+  //      accountInfo.value = result;
+        accountInfo.value = new AccountInfo(result);
+      }).catch ( (err) => {
+        console.error("getAccountInfo error " + err);
+      });
+    }
 
-    const refreshBalance = function() {
+    const refreshAccountInfoWithoutProof = function() {
       getAccountInfoWithoutProof().then( (result) => {
         console.debug('getAccountInfoWithoutProof ' + JSON.stringify(result));
-        accountInfoNoProof.value = result;
+//        accountInfoNoProof.value = result;
+        accountInfoNoProof.value = new AccountInfo(result);
+        accountBal.value = accountInfoNoProof.value.balanceAsNumber;
+        console.debug('accountBal.value: ' + accountBal.value);
       }).catch ( (err) => {
         console.error("getAccountInfoWithoutProof error " + err);
       })
     }
+
+    const refreshBalance = function() {
+//      refreshAccountInfo();
+      refreshAccountInfoWithoutProof();
+    }
     
-    refreshBalance();
+      refreshAccountInfo();
+      refreshAccountInfoWithoutProof();
+//    refreshBalance();
 
     const tapFaucet = function() {
       runFaucetStx().then( (result) => {
@@ -107,6 +123,7 @@ export default {
     return {
       accountInfo,
       accountInfoNoProof,
+      accountBal,
       faucetTx,
       
       refreshBalance,
