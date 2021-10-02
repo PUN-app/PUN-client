@@ -7,7 +7,6 @@
       <button @click="onLoad()" >Load</button>
       <p>{{form.fileData}}</p>
       <p>Color: <input type="text" v-model="form.fileData.color"/></p>
-      <p>(coming soon)</p>
     </div>
   </div>
 </template>

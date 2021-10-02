@@ -1,7 +1,8 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <p>Stacks Address: {{ stacksAddress }}</p>
+    <p>Stacks Address: {{ stacksAddress }}
+    <input class="stxAddress" type="text" v-model="stacksAddress"/></p>
     <p>Accounts: {{ accounts }}</p>
     <p>Account Info: {{ accountInfo }}</p>
     <p>Account Info no proof: {{ accountInfoNoProof }}</p>
@@ -12,7 +13,7 @@
   
 </template>
 
-<script>
+<script lang="ts">
 import { ref } from "vue";
 import { fetch } from "cross-fetch";
 import { makeRandomPrivKey, privateKeyToString, getAddressFromPrivateKey, TransactionVersion} from "@stacks/transactions";
@@ -22,27 +23,31 @@ const apiConfig = new Configuration({
   fetchApi: fetch,
   // for mainnet, replace `testnet` with `mainnet`
   basePath: 'https://stacks-node-api.testnet.stacks.co',
+//  basePath: 'https://stacks-node-api.mainnet.stacks.co',
 });
 
 const privateKey = makeRandomPrivKey();
 
-const stacksAddress = getAddressFromPrivateKey(
+const addFromKey = getAddressFromPrivateKey(
   privateKeyToString(privateKey),
   TransactionVersion.Testnet // remove for Mainnet addresses
 );
 
+const stacksAddress = ref(addFromKey);
+
 const accounts = new AccountsApi(apiConfig);
 async function getAccountInfo() {
   const accountInfo = await accounts.getAccountInfo({
-    principal: stacksAddress,
+    principal: stacksAddress.value,
   });
 
   return accountInfo;
 }
 
 async function getAccountInfoWithoutProof() {
+  console.log("Refreshing balance for " + stacksAddress.value);
   const accountInfo = await accounts.getAccountInfo({
-    principal: stacksAddress,
+    principal: stacksAddress.value,
     proof: 0,
   });
 
@@ -52,8 +57,9 @@ async function getAccountInfoWithoutProof() {
 async function runFaucetStx() {
   const faucets = new FaucetsApi(apiConfig);
 
+  console.log("Running faucet for " + stacksAddress.value);
   const faucetTx = await faucets.runFaucetStx({
-    address: stacksAddress,
+    address: stacksAddress.value,
   });
 
   return faucetTx;
@@ -69,12 +75,12 @@ export default {
     const accountInfo = ref(null);
     const accountInfoNoProof = ref(null);
     const faucetTx = ref(null);
-    
+
     getAccountInfo().then( (result) => {
       console.debug('getAccountInfo ' + JSON.stringify(result));
       accountInfo.value = result;
     }).catch ( (err) => {
-      console.error("error " + err);
+      console.error("getAccountInfo error " + err);
     })
 
     const refreshBalance = function() {
@@ -82,7 +88,7 @@ export default {
         console.debug('getAccountInfoWithoutProof ' + JSON.stringify(result));
         accountInfoNoProof.value = result;
       }).catch ( (err) => {
-        console.error("error " + err);
+        console.error("getAccountInfoWithoutProof error " + err);
       })
     }
     
@@ -94,7 +100,7 @@ export default {
         faucetTx.value = result;
         refreshBalance();
       }).catch ( (err) => {
-        console.error("error " + err);
+        console.error("runFaucetStx error " + JSON.stringify(err));
       })
     }
 
@@ -106,7 +112,6 @@ export default {
       refreshBalance,
       tapFaucet,
       getAccountInfoWithoutProof,
-//      runFaucetStx,
       stacksAddress,
       accounts,
     }
@@ -129,5 +134,8 @@ li {
 }
 a {
   color: #42b983;
+}
+.stxAddress {
+  width: 594px;
 }
 </style>
