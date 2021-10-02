@@ -2,6 +2,7 @@
   <stxAccountDemo msg="Account Demo"/>
   <stxAuthDemo msg="Authentication Demo" @loggedIn="loggedInEvent" @loggedOut="loggedOutEvent"/>
   <stxGaiaDemo msg="Gaia Demo" :isLoggedIn="isLoggedIn"/>
+  <stxCipherDemo msg="Cipher Demo" :isLoggedIn="isLoggedIn"/>
 </template>
 
 <script lang="ts">
@@ -10,6 +11,7 @@ import { StxSessionService } from '@/services/stx-session.service';
 import stxAccountDemo from '@/stacks/components/stx-account-demo.vue';
 import stxAuthDemo from '@/stacks/components/stx-auth-demo.vue';
 import stxGaiaDemo from '@/stacks/components/stx-gaia-demo.vue';
+import stxCipherDemo from '@/stacks/components/stx-cipher-demo.vue';
 
 export default {
   name: "stxDemo",
@@ -17,6 +19,7 @@ export default {
     stxAccountDemo,
     stxAuthDemo,
     stxGaiaDemo,
+    stxCipherDemo,
   },
   setup() {
     const stxSession = inject('sessionService', new StxSessionService());

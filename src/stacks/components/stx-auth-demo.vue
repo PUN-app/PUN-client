@@ -24,14 +24,13 @@ export default defineComponent({
   },
   emits: ['loggedIn', 'loggedOut'],
   setup(props, ctx) {
-    const userData = ref(null);
-//    const username = ref(null);
     const stxSession = inject('sessionService', new StxSessionService());
+    const userData = ref(stxSession.userData);
+    console.debug("userData: " + userData.value);
 
     const authCallback = function(data) {
       console.debug("userData: " + JSON.stringify(data, null, 1));
       userData.value = data;
-//      username.value = data.username;
       ctx.emit('loggedIn');
     }
     
@@ -41,7 +40,6 @@ export default defineComponent({
 
     return {
       userData,
-//      username,
       authenticate: callAuth,
       logout() {
         stxSession.signUserOut();

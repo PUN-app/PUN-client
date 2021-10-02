@@ -11,9 +11,8 @@ export class StxSessionService {
     //const appConfig = new AppConfig(['store_write'], appDomain);
 
     const appConfig = new AppConfig(['store_write', 'publish_data']);
-  // This should be app scoped
+    // This should be app scoped
     this.userSession = new UserSession({ appConfig });
-//    const userSession = new UserSession();
   }
 
   public authenticate(cbFunction: any) {
@@ -43,9 +42,9 @@ export class StxSessionService {
       console.debug("logout result: " + result);
     }
   }
-  
-  public async encrypt(message: any) {
-    let cipherText: String | null = null;
+
+  public async encryptContent(message: string) {
+    let cipherText: any | null = null;
     if (this.userSession && this.userSession.isUserSignedIn()) {
       cipherText = await this.userSession.encryptContent(message);
     }
@@ -55,4 +54,14 @@ export class StxSessionService {
 //    const plainText = await userSession.decryptContent(cipherText);
   }
 
+  public async decryptContent(cipherText: string) {
+    let plainText: string | null | Buffer = null;
+    if (this.userSession && this.userSession.isUserSignedIn()) {
+      plainText = await this.userSession.decryptContent(cipherText);
+    }
+    return plainText;
+//    const message = 'My secret message';
+//    const cipherText = await userSession.encryptContent(message);
+//    const plainText = await userSession.decryptContent(cipherText);
+  }
 }

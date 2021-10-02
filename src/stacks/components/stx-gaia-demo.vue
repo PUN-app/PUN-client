@@ -26,7 +26,6 @@ export default {
   },
   setup() {
     const stxSession = inject('sessionService', new StxSessionService());
-
     const userSession = reactive(stxSession.userSession);
 
     let storage;
