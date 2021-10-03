@@ -4,8 +4,8 @@
     <p v-if="!userSession.isUserSignedIn()">Please log in.</p>
     <div v-if="userSession.isUserSignedIn()">
       <p>
-      <button @click="deploy">Deploy</button>
-      (coming soon)
+        <button @click="deployContract">Deploy</button>
+        <button @click="callContract">Call</button>
       </p>
     </div>
   </div>
@@ -14,25 +14,7 @@
 <script lang="ts">
   import {inject, ref, reactive} from "vue";
   import {StxSessionService} from '@/services/stx-session.service';
-  import { openContractDeploy } from '@stacks/connect';
-
-  const codeBody = '(begin (print "hello, world"))';
-  
-  const deploy = function() {
-    openContractDeploy({
-      contractName: 'my-contract-name',
-      codeBody,
-      appDetails: {
-        name: 'My App',
-        icon: window.location.origin + '/my-app-logo.svg',
-      },
-      onFinish: data => {
-        console.log('Stacks Transaction:', data.stacksTransaction);
-        console.log('Transaction ID:', data.txId);
-        console.log('Raw transaction:', data.txRaw);
-      },
-    });
-  }
+  import { deployContract, callContract } from '@/stacks/lib/stx-contract-demo';
 
   export default {
     name: "stxContractsDemo",
@@ -48,7 +30,8 @@
 
       return {
         userSession,
-        deploy,
+        deployContract,
+        callContract,
       }
     },
   }
