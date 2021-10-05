@@ -10,6 +10,7 @@ import {
   standardPrincipalCV,
   trueCV,
 } from '@stacks/transactions';
+import { onFinishDefault } from "./stx-contract";
 
 const codeBodyPrint = '(begin (print "hello, world"))';
 const codeBodyInOut = '(say (input (string-utf8 100)))';
@@ -60,17 +61,26 @@ const options: ContractCallRegularOptions = {
     name: 'My App',
     icon: window.location.origin + '/my-app-logo.svg',
   },
-  onFinish: (data: any) => {
+  onFinish: onFinishDefault,
+/*
+  (data: any) => {
     console.log('Stacks Transaction:', data.stacksTransaction);
     console.log('Transaction ID:', data.txId);
     console.log('Raw transaction:', data.txRaw);
     console.log('contractCall onFinish data: ' + 
       JSON.stringify(data, (_, v) => typeof v === 'bigint' ? v.toString() : v, 1));
   },
+*/
 };
 
 export const callContract = function() {
   console.debug("callContract...");
   const result = openContractCall(options);
   console.debug("callContract result: " + result);
+  result.then( () => {
+    // This was invoked right after the onFinish
+    console.debug("We know the user fired the contract call here, but no useful data passed.");
+  }).catch((err) => {
+    console.error("callContract err: " + JSON.stringify(err));
+  })
 }
