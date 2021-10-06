@@ -28,11 +28,11 @@ const codeBodyHW2 = `
     (ok something)
 )
 `;
-
+/*
 const functionArgs = [
   stringUtf8CV('hey-utf8'),
 ];
-
+*/
 const contractDeployOptions: ContractDeployRegularOptions = 
 {
     contractName: contractName,
@@ -52,6 +52,7 @@ export const deployContract = function() {
   openContractDeploy(contractDeployOptions);
 }
 
+/*
 const options: ContractCallRegularOptions = {
   contractAddress: 'ST2DJVV0HNR22MEG5W22010FC2KAVH876025EC8M4',
   contractName: contractName,
@@ -62,17 +63,10 @@ const options: ContractCallRegularOptions = {
     icon: window.location.origin + '/my-app-logo.svg',
   },
   onFinish: onFinishDefault,
-/*
-  (data: any) => {
-    console.log('Stacks Transaction:', data.stacksTransaction);
-    console.log('Transaction ID:', data.txId);
-    console.log('Raw transaction:', data.txRaw);
-    console.log('contractCall onFinish data: ' + 
-      JSON.stringify(data, (_, v) => typeof v === 'bigint' ? v.toString() : v, 1));
-  },
-*/
 };
+*/
 
+/*
 export const callContract = function() {
   console.debug("callContract...");
   const result = openContractCall(options);
@@ -84,3 +78,4 @@ export const callContract = function() {
     console.error("callContract err: " + JSON.stringify(err));
   })
 }
+*/
