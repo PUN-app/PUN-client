@@ -31,9 +31,14 @@ export default defineComponent({
     const authCallback = function(data) {
       console.debug("userData: " + JSON.stringify(data, null, 1));
       userData.value = data;
-      ctx.emit('loggedIn');
+      let profile = {};
+      if (data.profile)
+        profile = data.profile;
+      ctx.emit('loggedIn', profile);
+//      if (data.profile && data.profile.stxAddress)
+//        ctx.emit('logged', data.profile.stxAddress.testnet)
     }
-    
+
     const callAuth = function() {
       stxSession.authenticate(authCallback);
     }

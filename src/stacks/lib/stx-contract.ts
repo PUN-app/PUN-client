@@ -1,5 +1,5 @@
-import { ContractCallRegularOptions, FinishedTxData, openContractCall } from "@stacks/connect";
-import { stringUtf8CV } from "@stacks/transactions";
+import { ContractCallRegularOptions, FinishedTxData, openContractCall, RegularOptionsBase, TxBase } from "@stacks/connect";
+import { ClarityValue, stringUtf8CV } from "@stacks/transactions";
 
 export const onFinishDefault = function(data: any) {
   console.log('Stacks Transaction:', data.stacksTransaction);
@@ -17,7 +17,14 @@ export const functionArgsDefault = [
 export const functionNameDefault = 'say';
 export const appNameDefault = 'My App';
 
-type ContractCallExtendedOptions = ContractCallRegularOptions & {
+export interface ContractCallBaseOptions extends TxBase, RegularOptionsBase {
+    contractAddress?: string;
+    contractName?: string;
+    functionName?: string;
+    functionArgs?: (string | ClarityValue)[];
+}
+
+export type ContractCallExtendedOptions = ContractCallRegularOptions & {
   finishedTxData?: FinishedTxData;
 }
 
@@ -28,7 +35,7 @@ export class ContractCall {
     return this._finishedTxData ? this._finishedTxData : this.options.finishedTxData; 
   }
   public set finishedTxData(data: FinishedTxData | undefined) {
-    console.debug("setting finishedTxData: " + JSON.stringify(data));
+    console.debug("setting finishedTxData: " + JSON.stringify(data, (_, v) => typeof v === 'bigint' ? v.toString() : v, 1));
     this._finishedTxData = data;
   }
   
@@ -54,7 +61,22 @@ export class ContractCall {
 */
   };
 
-  constructor() { }
+  constructor(options?: ContractCallExtendedOptions | ContractCallBaseOptions) { 
+    if (options) {
+      if (options.contractAddress)
+        this.options.contractAddress = options.contractAddress;
+      if (options.contractName)
+        this.options.contractName = options.contractName;
+      if (options.functionName)
+        this.options.functionName = options.functionName;
+      if (options.functionArgs)
+        this.options.functionArgs = options.functionArgs;
+      if (options.appDetails)
+        this.options.appDetails = options.appDetails;
+      if (options.onFinish)
+        this.options.onFinish = options.onFinish;
+    }
+  }
 
   onFinishMethod(data: FinishedTxData) {
     console.debug('Stacks Transaction:', data.stacksTransaction);

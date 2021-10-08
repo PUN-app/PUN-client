@@ -3,7 +3,7 @@
   <stxAuthDemo msg="Authentication Demo" @loggedIn="loggedInEvent" @loggedOut="loggedOutEvent"/>
   <stxGaiaDemo msg="Gaia Demo" :isLoggedIn="isLoggedIn"/>
   <stxCipherDemo msg="Cipher Demo" :isLoggedIn="isLoggedIn"/>
-  <stxContractsDemo msg="Contracts Demo" :isLoggedIn="isLoggedIn"/>
+  <stxContractsDemo msg="Contracts Demo" :isLoggedIn="isLoggedIn" :contractAddress="testnetAddress"/>
 </template>
 
 <script lang="ts">
@@ -27,11 +27,21 @@ export default {
   setup() {
     const stxSession = inject('sessionService', new StxSessionService());
     const isLoggedIn = ref(stxSession.isLoggedIn());
+    const testnetAddress = ref('ST2DJVV0HNR22MEG5W22010FC2KAVH876025EC8M4');
+
     return {
+      // data
+      testnetAddress,
       isLoggedIn,
-      loggedInEvent() {
+
+      // methods
+      loggedInEvent(profile: any) {
         console.debug("loggedInEvent")
         isLoggedIn.value = stxSession.isLoggedIn();
+        if (profile && profile.stxAddress)
+          testnetAddress.value = profile.stxAddress.testnet;
+        console.debug("loggedInEvent " + testnetAddress.value)
+        //        ctx.emit('logged', data.profile.stxAddress.testnet)
       },
       loggedOutEvent() {
         console.debug("loggedOutEvent")
@@ -41,3 +51,10 @@ export default {
   },
 }
 </script>
+
+<style>
+.stxAddress {
+  width: 594px;
+}
+</style>
+

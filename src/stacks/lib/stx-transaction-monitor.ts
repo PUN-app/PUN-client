@@ -3,24 +3,30 @@ import { connectWebSocketClient, StacksApiWebSocketClient }
 
 const STACKS_DOCS_API_WS_URL = 'ws://stacks-node-api.blockstack.org/';
 const STACKS_CORE_API_WS_URL = 'wss://stacks-node-api.testnet.stacks.co/';
+const STACKS_CORE_API_WS_LOCAL_URL = 'ws://localhost:3999/';
 
-interface Subscription {
+export interface Subscription {
   unsubscribe(): Promise<void>;
 }
 
 // https://blockstack.github.io/stacks-blockchain-api/client/
 export class StxTransactionMonitor {
 
-  private client?: any;
+  private client?: StacksApiWebSocketClient;
 
-  public async getClient(): Promise<StacksApiWebSocketClient> {
+//  public async getClient(): Promise<StacksApiWebSocketClient> {
+  public getClient(): Promise<StacksApiWebSocketClient> {
     return new Promise<StacksApiWebSocketClient>((resolve, reject) => {
-      if (this.client)
+      console.debug("In getClient, WebSocket.OPEN: " + WebSocket.OPEN);
+      if (this.client && this.client.webSocket.readyState === WebSocket.OPEN)
         resolve(this.client);
       else {
-        console.debug("Instantiating new WS client");
-        connectWebSocketClient(STACKS_CORE_API_WS_URL).then((client) => {
+        const url = STACKS_CORE_API_WS_LOCAL_URL;
+        console.debug("Instantiating new WS client " + url);
+        connectWebSocketClient(url).then((client) => {
           this.client = client;
+          if (this.client && this.client.webSocket)
+            console.debug("this.client.webSocket.readyState: " + this.client.webSocket.readyState);
           resolve(this.client);
         }).catch((err) => {
           reject(err);
@@ -49,8 +55,11 @@ export class StxTransactionMonitor {
     if (!this.sub)
       this.getClient().then((client) => {
         console.debug('client: ' + JSON.stringify(client));
-        const sub = client.subscribeTxUpdates(txId, (update: any) => {
-          console.log("update: " + update);
+//        const sub = client.subscribeTxUpdates(txId, (update: any) => {
+//          console.log("update: " + update);
+//        });
+        const sub = client.subscribeTxUpdates(txId, (event: any) => {
+          console.debug("event: " + JSON.stringify(event));
         });
         sub.then((subscription: Subscription) => {
           console.debug("Obtained new subscription");
@@ -59,7 +68,7 @@ export class StxTransactionMonitor {
           console.error("sub err: " + JSON.stringify(err));
         });
       }).catch((err) => {
-        console.error("subscribe getClient err: " + err);
+        console.error("subscribe getClient err: " + JSON.stringify(err));
       })
   }
   
