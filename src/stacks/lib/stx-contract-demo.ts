@@ -10,7 +10,7 @@ import {
   standardPrincipalCV,
   trueCV,
 } from '@stacks/transactions';
-import { onFinishDefault } from "./stx-contract";
+import { ContractBaseOptions, onFinishDefault } from "./stx-contract";
 
 const codeBodyPrint = '(begin (print "hello, world"))';
 const codeBodyInOut = '(say (input (string-utf8 100)))';
@@ -28,11 +28,7 @@ const codeBodyHW2 = `
     (ok something)
 )
 `;
-/*
-const functionArgs = [
-  stringUtf8CV('hey-utf8'),
-];
-*/
+
 const contractDeployOptions: ContractDeployRegularOptions = 
 {
     contractName: contractName,
@@ -48,34 +44,9 @@ const contractDeployOptions: ContractDeployRegularOptions =
     },
   }
 
-export const deployContract = function() {
+export const deployContract = function(options?: ContractBaseOptions) {
+  if (options) {
+    if (options.contractName) contractDeployOptions.contractName = options.contractName;
+  }
   openContractDeploy(contractDeployOptions);
 }
-
-/*
-const options: ContractCallRegularOptions = {
-  contractAddress: 'ST2DJVV0HNR22MEG5W22010FC2KAVH876025EC8M4',
-  contractName: contractName,
-  functionName: 'say',
-  functionArgs: functionArgs,
-  appDetails: {
-    name: 'My App',
-    icon: window.location.origin + '/my-app-logo.svg',
-  },
-  onFinish: onFinishDefault,
-};
-*/
-
-/*
-export const callContract = function() {
-  console.debug("callContract...");
-  const result = openContractCall(options);
-  console.debug("callContract result: " + result);
-  result.then( () => {
-    // This was invoked right after the onFinish
-    console.debug("We know the user fired the contract call here, but no useful data passed.");
-  }).catch((err) => {
-    console.error("callContract err: " + JSON.stringify(err));
-  })
-}
-*/
