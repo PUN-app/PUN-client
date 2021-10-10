@@ -1,3 +1,7 @@
+//
+// THIS IS NO LONGER USED.  CAN REMOVE TO CLEANUP.
+//
+
 import { 
   openContractDeploy, openContractCall, ContractCallRegularOptions, ContractDeployRegularOptions 
 } from '@stacks/connect';
