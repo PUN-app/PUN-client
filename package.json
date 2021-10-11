@@ -12,6 +12,7 @@
     "@stacks/connect": "^6.2.0",
     "@stacks/storage": "^2.0.1",
     "@stacks/transactions": "^2.0.1",
+    "axios": "^0.22.0",
     "core-js": "^3.6.5",
     "cross-fetch": "^3.1.4",
     "vue": "^3.0.0",
@@ -31,6 +32,9 @@
     "eslint-plugin-vue": "^7.0.0",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.3"
+  },
+  "devDependenciesDELETED": {
+    "vue-cli-plugin-axios": "~0.0.4"
   },
   "eslintConfig": {
     "root": true,
