@@ -9,11 +9,11 @@
 <script lang="ts">
 import { inject, ref } from 'vue';
 import { StxSessionService } from '@/services/stx-session.service';
-import stxAccountDemo from '@/stacks/components/stx-account-demo.vue';
-import stxAuthDemo from '@/stacks/components/stx-auth-demo.vue';
-import stxGaiaDemo from '@/stacks/components/stx-gaia-demo.vue';
-import stxCipherDemo from '@/stacks/components/stx-cipher-demo.vue';
-import stxContractsDemo from '@/stacks/components/stx-contracts-demo.vue';
+import stxAccountDemo from './stx-account-demo.vue';
+import stxAuthDemo from './stx-auth-demo.vue';
+import stxGaiaDemo from './stx-gaia-demo.vue';
+import stxCipherDemo from './stx-cipher-demo.vue';
+import stxContractsDemo from './stx-contracts-demo.vue';
 
 export default {
   name: "stxDemo",

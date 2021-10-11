@@ -34,7 +34,7 @@
   import { ContractCall, ContractCallExtendedOptions, ContractDeploy, BaseContract } from '@/stacks/lib/stx-contract';
   import { StxTransactionMonitor } from '@/stacks/lib/stx-transaction-monitor';
   import { FinishedTxData } from "@stacks/connect";
-  import stxTransactionMonitor from "./stx-transaction-monitor.vue";
+  import stxTransactionMonitor from "../stx-transaction-monitor.vue";
 
 //TODO call a read-only (no transaction)
 // https://stacks-js-git-master-blockstack.vercel.app/modules/transactions.html

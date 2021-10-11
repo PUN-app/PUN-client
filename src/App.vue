@@ -6,7 +6,7 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue';
-import stxDemo from '@/stacks/components/stx-demo.vue';
+import stxDemo from '@/stacks/components/demo/stx-demo.vue';
 import { StxSessionService } from '@/services/stx-session.service';
 import { StxApiTransactionsService } from '@/services/stx-api-transactions.service';
 import { AppConfig } from '@/data/app-config.data';
