@@ -13,6 +13,9 @@
         <p>
           TxId <input class="stxAddress" v-model="finishedTxData.txId"/>
         </p>
+        <p>
+          <stxTransactionMonitor :txId="finishedTxData.txId" />
+        </p>
         <p v-if="finishedTxData.txId">
           <button @click="monitor">Monitor</button>
         </p>
@@ -28,10 +31,10 @@
 <script lang="ts">
   import { defineComponent, inject, ref, reactive, watch } from "vue";
   import {StxSessionService} from '@/services/stx-session.service';
-//  import { deployContract } from '@/stacks/lib/stx-contract-demo';
   import { ContractCall, ContractCallExtendedOptions, ContractDeploy, BaseContract } from '@/stacks/lib/stx-contract';
   import { StxTransactionMonitor } from '@/stacks/lib/stx-transaction-monitor';
   import { FinishedTxData } from "@stacks/connect";
+  import stxTransactionMonitor from "./stx-transaction-monitor.vue";
 
 //TODO call a read-only (no transaction)
 // https://stacks-js-git-master-blockstack.vercel.app/modules/transactions.html
@@ -47,6 +50,7 @@
         default: 'ST2DJVV0HNR22MEG5W22010FC2KAVH876025EC8M4',
       },
     },
+    components: { stxTransactionMonitor },
     setup(props, ctx) {
       const finishedTxData = ref({} as FinishedTxData | null);
       const stxSession = inject('sessionService', new StxSessionService());

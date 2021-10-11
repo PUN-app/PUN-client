@@ -11,5 +11,6 @@ export type TransactionState = {
     "receipt_time": number,
     "receipt_time_iso": string,
     "tx_type": string,
-    "contract_call": any,
+    "contract_call"?: any,
+    "tx_result"?: any,
 }

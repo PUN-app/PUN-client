@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { fetch } from "cross-fetch";
 import { makeRandomPrivKey, privateKeyToString, getAddressFromPrivateKey, TransactionVersion} from "@stacks/transactions";
 import {AccountsApi, FaucetsApi, Configuration} from "@stacks/blockchain-api-client";
