@@ -12,6 +12,12 @@ npm install -D typescript
 vue add typescript
 ```
 
+## Adding Quasar
+
+https://quasar.dev/start/vue-cli-plugin
+
+
+
 ## Github crap
 
 For login, put the user name (not email), and for password, use the token. 

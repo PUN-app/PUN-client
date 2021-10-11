@@ -54,4 +54,11 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+h1 {
+  font-size: 44px;
+  line-height: 16px;
+  color: #888;
+  padding-top: 12px
+}
 </style>
