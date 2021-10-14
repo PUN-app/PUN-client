@@ -4,6 +4,7 @@ import { connectWebSocketClient, StacksApiWebSocketClient }
 const STACKS_DOCS_API_WS_URL = 'ws://stacks-node-api.blockstack.org/';
 const STACKS_CORE_API_WS_URL = 'wss://stacks-node-api.testnet.stacks.co/';
 const STACKS_CORE_API_WS_LOCAL_URL = 'ws://localhost:3999/';
+const USE_STACKS_CORE_API_WS_URL = STACKS_CORE_API_WS_URL;
 
 export interface Subscription {
   unsubscribe(): Promise<void>;
@@ -21,7 +22,7 @@ export class StxTransactionMonitor {
       if (this.client && this.client.webSocket.readyState === WebSocket.OPEN)
         resolve(this.client);
       else {
-        const url = STACKS_CORE_API_WS_LOCAL_URL;
+        const url = USE_STACKS_CORE_API_WS_URL;
         console.debug("Instantiating new WS client " + url);
         connectWebSocketClient(url).then((client) => {
           this.client = client;
