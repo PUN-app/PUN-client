@@ -24,5 +24,14 @@
 				<arguments>1.0-name-matches-false-false-*</arguments>
 			</matcher>
 		</filter>
+		<filter>
+			<id>1634578967028</id>
+			<name>dist/js</name>
+			<type>6</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-*</arguments>
+			</matcher>
+		</filter>
 	</filteredResources>
 </projectDescription>

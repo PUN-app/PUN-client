@@ -7,6 +7,16 @@
       <button @click="onLoad()" >Load</button>
       <p>{{form.fileData}}</p>
       <p>Color: <input type="text" v-model="form.fileData.color"/></p>
+      <div>
+         <button @click="onList()" >List</button>
+      </div>
+      <div>
+        <q-list>
+          <q-item v-for="file in files.names" :key="file" class="justify-center">
+            {{file}}
+          </q-item>
+        </q-list>
+      </div>
     </div>
   </div>
 </template>
@@ -48,11 +58,21 @@ export default {
       decrypt: true,
     };
 
+    // for listing files
+    const files = reactive({names: []});
+    const callback = function(filename) {
+      // return false to stop iterating through files
+      // return true to continue
+      console.debug("filename: " + filename);
+      files.names.push(filename);
+      return true;
+    }
+//    const files: Promise<string | undefined | ArrayBuffer | null>[] = [];
+
     return {
-//      fileData,
       form,
+      files,
       onSave() {
-//        let putPromise = storage.putFile(fileName, JSON.stringify(fileData), options).then((fileUrl) => {
         console.debug("Saving " + JSON.stringify(form.fileData));
         storage.putFile(fileName, JSON.stringify(form.fileData), options).then((fileUrl) => {
           console.debug("Saved! fileUrl=" + fileUrl);
@@ -67,8 +87,11 @@ export default {
           console.debug("loaded " + data);
         });
       },
+      onList() {
+        this.files.names = [];
+        storage.listFiles(callback);
+      },
       userSession,
-      // temp
     }
   },
 }
